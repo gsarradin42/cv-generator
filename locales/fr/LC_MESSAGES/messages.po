@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: cv_generator 1.0\n"
+"Language: fr\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "first_name"
+msgstr "prénom"
+
+msgid "last_name"
+msgstr "nom"
+
+msgid "years of experience"
+msgstr "années d'expérience"
+
+msgid "nationality"
+msgstr "nationalité {name}"
+
+msgid "work_permit"
+msgstr "permis de travail"
+
+msgid "work_permit_short"
+msgstr "permis {name}"
+
+msgid "tel"
+msgstr "téléphone"
+
+msgid "mail"
+msgstr "email"
+
+msgid "tel_short"
+msgstr "tél"
+
+msgid "mail_short"
+msgstr "mél"
+
+msgid "tasks"
+msgstr "Tâches"
+
+msgid "since"
+msgstr "depuis"

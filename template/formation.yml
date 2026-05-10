@@ -1,0 +1,22 @@
+formation:
+  title_en: FORMATION
+  title_fr: FOPMATION
+  list:
+    - organization: Udemy
+      year: 2025
+      content: Vue.js 3
+
+    - organization: UNIVERSITY
+      year: 1999
+      content_en: Computer of science
+
+language:
+  - french:
+      title_en: FRENCH
+      title_fr: FRANÇAIS
+      level_en: Mother tongue
+      level_fr: Langue maternelle
+  - english:
+      title_en: ENGLISH
+      title_fr: ANGLAIS
+      level_en: B2

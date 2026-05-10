@@ -1,0 +1,16 @@
+first_name: My-firstname
+last_name: Lastname
+title_en: Engineer
+title_fr: Ingénieur
+xp: 42
+nationality_en: french
+nationality_fr: française
+work_permit: X
+tel: +1 555 555 555 555
+mail: fakemail@nomansmail.land
+adress:
+  street_name: flower road
+  street_number: 42
+  zip_code: 4242
+  city: Nomanscity
+  country: Nomansland

@@ -1,0 +1,12 @@
+# decline in every lang needed (content_fr.yml, content_en.yml)
+title: TITLE
+position: Engineer
+summary: |
+  lorem ipsum
+
+introduction: |
+  lorem ipsum lorem ipsum
+
+tasks: |
+  - task 1 lorem ipsum
+  - task 2 lorem ispum

@@ -1,0 +1,18 @@
+title_en: BUSINESS EXPERTISE
+title_fr: EXPERTISE MÉTIER
+list:
+  - healthcare:
+    en:
+      - Healtcare
+      - lorem ipsum
+    fr:
+      - Hospitalier
+      - morel muspi
+
+  - banking:
+    en:
+      - Banking
+      - lorem ipsum
+    fr:
+      - Banque
+      - morel muspi

@@ -1,0 +1,4 @@
+.zed
+locales/**/*.mo
+__pycache__
+/venv

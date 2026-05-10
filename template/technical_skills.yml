@@ -1,0 +1,12 @@
+title_en: TECHNICAL SKILLS
+title_fr: COMPÉTENCES TECHNIQUES
+list:
+  - languages:
+    title_en: LANGUAGES
+    title_fr: LANGAGES
+    it_keywords: [Java, JEE, TypeScript]
+
+  - web_technologies:
+    title_en: WEB TECHNOLOGIES
+    title_fr: TECHNOLOGIES WEB
+    it_keywords: [Vue.js 3, Angular2+, CSS, HTML5]
