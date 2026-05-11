@@ -4,6 +4,7 @@ import argparse
 import os
 
 from libs.helpers.project_checker import check_project_consistency
+from libs.helpers.text_utils import indent_multiple_line
 from libs.processors import (
     business_skills,
     personal_info,
@@ -41,7 +42,12 @@ def process_xp_list(name):
         lambda f: os.path.isdir(os.path.join(xp_dir, f)), os.listdir(xp_dir)
     )
 
-    return "\n".join([xp.process(os.path.join(xp_dir, d)) for d in listdir])
+    return f"""
+    <section id="xp">
+        <h2>{_("xp_pro")}</h2>
+    {indent_multiple_line("\n".join([xp.process(os.path.join(xp_dir, d)) for d in listdir]), 2)}
+    </section>
+    """
 
 
 def process_args():
@@ -92,7 +98,7 @@ if __name__ == "__main__":
         lang = os.environ["LANG"]
         try:
             lang = lang.split(".")[0].split("_")[0]
-        except:
+        except Exception:
             lang = "en"
     else:
         lang = args.lang

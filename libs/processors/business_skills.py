@@ -1,6 +1,10 @@
 # import yaml
 from libs.helpers.load_yaml import load_yaml
-from libs.helpers.text_utils import gen_tag, gen_tag_nl, indent_line
+from libs.helpers.text_utils import (
+    gen_tag,
+    indent_line,
+    indent_multiple_line,
+)
 from libs.services import i18n
 
 
@@ -12,25 +16,27 @@ def process(project) -> str:
 
     title = data.get("title_" + lang)
 
-    table = gen_tag_nl(
-        "table",
-        "\n".join(
-            [
-                indent_line(
-                    gen_tag(
-                        "tr",
-                        gen_tag("td", obj_lang.get(lang)[0])
-                        + gen_tag("td", obj_lang.get(lang)[1]),
-                    )
-                )
-                for _, obj_lang in data.get("list").items()
-            ]
-        ),
-    )
+    table_lst = [
+        indent_line(
+            gen_tag(
+                "tr",
+                gen_tag("td", obj_lang.get(lang)[0])
+                + gen_tag("td", obj_lang.get(lang)[1]),
+            )
+        )
+        for _, obj_lang in data.get("list").items()
+    ]
 
     # return yaml.dump(data)
 
-    return f"<h2>{title}</h2>\n{indent_line(table)}\n"
+    return f"""
+    <section id="business-skills">
+        <h2>{title}</h2>
+        <table>
+{indent_multiple_line(table_lst, 2)}
+        </table>
+    </section>
+    """
 
 
 def load_file(project):

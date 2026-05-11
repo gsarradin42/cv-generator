@@ -40,11 +40,16 @@ def process(project: str):
         f"<p>{_('mail_short')} : {data.get('mail')}</p>",
     )
 
-    return f"""<section>
-        <div>{indent_multiple_line(left_info, 3)}</div>
-        <div>{indent_multiple_line(right_info, 3)}</div>
+    out = f"""<section id="personal-info">
+        <div>
+{indent_multiple_line(left_info, 3)}
+        </div>
+        <div>
+{indent_multiple_line(right_info, 3)}
+        </div>
     </section>
 """
+    return out
 
 
 def load_file(project):

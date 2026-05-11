@@ -1,3 +1,8 @@
+import re
+
+indent_regex = re.compile("^([ \t]+)")
+
+
 def gen_tag(tagname, content, attr_list={}, new_line=False):
     attr_list_st = (
         " " + " ".join([f"{k}={v}" for k, v in attr_list]) if attr_list else ""
@@ -6,21 +11,30 @@ def gen_tag(tagname, content, attr_list={}, new_line=False):
     return f"<{tagname}{attr_list_st}>{nl_st}{content}{nl_st}</{tagname}>"
 
 
-def gen_tag_nl(tagname, content, attr_list={}):
+def gen_tag_nl(tagname, content, attr_list={}) -> str:
     return gen_tag(tagname, content, attr_list, True)
 
 
-def indent_line(line, amount=1):
+def indent_line(line, amount=1) -> str:
     return (" " * amount * 4) + line
 
 
-def indent_multiple_line(text, amount=1):
-    return (
-        "\n"
-        + "\n".join([indent_line(line, amount) for line in text])
-        + "\n"
-        + indent_line("", amount - 1)
-    )
+def indent_multiple_line(
+    text: list | tuple | str, amount=1, ref_ident_firstline=False
+) -> str:
+    if isinstance(text, str):
+        text = tuple(text.split("\n"))
+
+    indent_str = None
+    if ref_ident_firstline:
+        m = indent_regex.match(text[0])
+        if m is not None and m.group():
+            indent_str = m.group()
+
+    def _indent_line(ln):
+        return indent_str + ln if indent_str else indent_line(ln, amount)
+
+    return "\n".join([_indent_line(line) for line in text])
 
 
 def category_list_to_html_table(cat_list, cat_key: str, lst_key: str):
