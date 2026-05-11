@@ -14,7 +14,8 @@ def process(project) -> str:
 
     data = load_file(project)
 
-    title = data.get("title_" + lang)
+    title = i18n.get_data_keylang(data, "title")
+    # data.get("title_" + lang)
 
     table_lst = [
         indent_line(

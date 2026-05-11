@@ -20,24 +20,24 @@ def process(project: str):
         ad.get("country"),
     )
 
-    title_data = data.get("title_" + i18n.get_lang())
+    title_data = i18n.get_data_keylang(data, "title")
     xp_data = f"{data.get('xp')} {_('years of experience')}"
     nationality_data = _("nationality").format(
-        name=data.get("nationality_" + i18n.get_lang())
+        name=i18n.get_data_keylang(data, "nationality")
     )
     permit_data = _("work_permit_short").format(name=data.get("work_permit"))
 
     left_info = (
-        f"<p>{title_data}</p>",
-        f"<p>{xp_data}</p>",
-        f"<p>{nationality_data} ({permit_data})</p>",
-        f"<p>{adress}</p>",
+        f"<p class='title'>{title_data}</p>",
+        f"<p class='xp'>{xp_data}</p>",
+        f"<p class='nationality>{nationality_data} ({permit_data})</p>",
+        f"<p class='adress'>{adress}</p>",
     )
 
     right_info = (
-        f"<p>{data.get('first_name')} {data.get('last_name').upper()}</p>",
-        f"<p>{_('tel_short')} : {data.get('tel')}</p>",
-        f"<p>{_('mail_short')} : {data.get('mail')}</p>",
+        f"<p class='name'>{data.get('first_name')} {data.get('last_name').upper()}</p>",
+        f"<p class='tel'>{_('tel_short')} : {data.get('tel')}</p>",
+        f"<p class='mail'>{_('mail_short')} : {data.get('mail')}</p>",
     )
 
     out = f"""<section id="personal-info">

@@ -5,15 +5,14 @@ from libs.services import i18n
 
 def process(project) -> str:
     _ = i18n.get_translator()
-    lang = i18n.get_lang()
 
     data = load_file(project)
 
-    title = data.get("title_" + lang)
+    title = i18n.get_data_keylang(data, "title")
 
     skill_list = data.get("list")
 
-    table = category_list_to_html_table_v2(skill_list, "title_" + lang, "it_keywords")
+    table = category_list_to_html_table_v2(skill_list, "title", "it_keywords")
 
     return f"""
     <section id="technical-skills">

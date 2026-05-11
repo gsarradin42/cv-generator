@@ -1,5 +1,7 @@
 import re
 
+from libs.services import i18n
+
 indent_regex = re.compile("^([ \t]+)")
 
 
@@ -63,7 +65,7 @@ def category_list_to_html_table_v2(cat_list, cat_key: str, lst_key: str):
                 indent_line(
                     gen_tag(
                         "tr",
-                        gen_tag("td", cat.get(cat_key))
+                        gen_tag("td", i18n.get_data_keylang(cat, cat_key))
                         # + gen_tag("td", cat.get(lst_key)),
                         + gen_tag("td", ", ".join(cat.get(lst_key))),
                     )

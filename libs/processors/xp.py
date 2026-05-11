@@ -12,9 +12,8 @@ def process(xp_dir):
 
     out = f"""<article>
     <header>
-        <h2>{xp_data.title} / <span>{xp_data.business_domain}</span></h2>
-        <h3>{xp_data.position}</h3>
-        <span>{xp_data.get_period_string()}</span>
+        <h3>{xp_data.title} / <span>{xp_data.business_domain}</span></h3>
+        <h4>{xp_data.position}<span class="period">{xp_data.get_period_string()}</span></h4>
     </header>
     {markdown.markdown(xp_data.introduction)}
     <p>

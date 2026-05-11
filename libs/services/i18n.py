@@ -7,13 +7,14 @@ from globals import BASE_DIR
 # FIXME try to use project root here
 LOCALES_DIR = os.path.join(BASE_DIR, "locales")
 DOMAIN = "messages"
+LANG_FALLBACK = "en"
 
 
 def _detect_lang() -> str:
     lang, _ = locale.getdefaultlocale()
     if lang:
         return lang.split("_")[0]
-    return "en"
+    return LANG_FALLBACK
 
 
 _current_translation = gettext.NullTranslations()
@@ -74,3 +75,8 @@ def set_language(lang_code: str | None = None):
 def get_translation() -> gettext.NullTranslations:
     """Retourne l'objet de traduction courant (pour appeler .gettext/.ngettext)."""
     return _current_translation
+
+
+def get_data_keylang(data, key: str):
+    value = data.get(f"{key}_{_current_lang}")
+    return value if value else data.get(f"{key}_{LANG_FALLBACK}")
