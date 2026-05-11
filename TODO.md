@@ -1,5 +1,5 @@
-[ ] support markdown (e.g. interpret list in tasks)
-[ ] write README.md
+[*] support markdown (e.g. interpret list in tasks)
+[*] write README.md
 [ ] write result in a file
 [*] handle date format
 [ ] handle header (1st page vs other pages)

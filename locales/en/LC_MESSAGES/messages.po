@@ -39,3 +39,6 @@ msgstr "Tasks"
 
 msgid "since"
 msgstr "since"
+
+msgid "xp_pro"
+msgstr "Professional Experiences"
