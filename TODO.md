@@ -1,6 +1,7 @@
+[ ] handle Formation section
 [*] support markdown (e.g. interpret list in tasks)
 [*] write README.md
-[ ] write result in a file
+[*] write result in a file
 [*] handle date format
 [ ] handle header (1st page vs other pages)
 [ ] handle footer (page number)

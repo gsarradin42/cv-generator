@@ -21,6 +21,12 @@ def generate(name: str):
     # write on big html file
     out_html = f"""
 <html>
+    <head>
+        <meta charset="utf-8">
+        <link href="cv.css" rel="stylesheet">
+        <title>CV TODO</title>
+        <meta name="description" content="My CV">
+    </head>
     <body>
     {personal_info.process(name)}
     {tagline.process(name)}
@@ -30,7 +36,9 @@ def generate(name: str):
     </body>
 </html>
 """
-    print(out_html)
+
+    with open(os.path.join(os.getcwd(), name, "out.html"), "w") as f:
+        f.write(out_html)
 
 
 def process_xp_list(name):
