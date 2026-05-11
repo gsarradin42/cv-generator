@@ -1,8 +1,6 @@
 from libs.helpers.load_yaml import load_yaml
 from libs.helpers.text_utils import indent_multiple_line
 from libs.models.adress import Adress
-
-# from libs.processors.processor import Processor
 from libs.services import i18n
 
 
@@ -30,7 +28,7 @@ def process(project: str):
     left_info = (
         f"<p class='title'>{title_data}</p>",
         f"<p class='xp'>{xp_data}</p>",
-        f"<p class='nationality>{nationality_data} ({permit_data})</p>",
+        f"<p class='nationality'>{nationality_data} ({permit_data})</p>",
         f"<p class='adress'>{adress}</p>",
     )
 

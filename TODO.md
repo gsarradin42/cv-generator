@@ -1,4 +1,4 @@
-[ ] handle Formation section
+[*] handle Formation/Lang/Interests section
 [*] support markdown (e.g. interpret list in tasks)
 [*] write README.md
 [*] write result in a file
@@ -10,3 +10,7 @@
 [*] verify filetree + files consistency :
   [*] need at least personal_info, tech/business skills, formation, languages, one XP
   [ ] check for each file consistency (vs yaml schema?)
+
+- XP
+  - short_title should be optional, if absent fallbakc to title
+  - title and position can be retrievable in metadata (and then content files if not found)

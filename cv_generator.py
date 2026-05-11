@@ -7,6 +7,9 @@ from libs.helpers.project_checker import check_project_consistency
 from libs.helpers.text_utils import indent_multiple_line
 from libs.processors import (
     business_skills,
+    formation,
+    interests,
+    languages,
     personal_info,
     tagline,
     technical_skills,
@@ -24,6 +27,7 @@ def generate(name: str):
     <head>
         <meta charset="utf-8">
         <link href="cv.css" rel="stylesheet">
+        <link href="cv.css" media="print" rel="stylesheet">
         <title>CV TODO</title>
         <meta name="description" content="My CV">
     </head>
@@ -32,6 +36,13 @@ def generate(name: str):
     {tagline.process(name)}
     {technical_skills.process(name)}
     {business_skills.process(name)}
+    <div id="fli-wrapper">
+        {formation.process(name)}
+        <div>
+        {languages.process(name)}
+        {interests.process(name)}
+        </div>
+    </div>
     {process_xp_list(name)}
     </body>
 </html>

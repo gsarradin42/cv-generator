@@ -42,3 +42,12 @@ msgstr "depuis"
 
 msgid "xp_pro"
 msgstr "Expériences Professionnelles"
+
+msgid "formation"
+msgstr "Formation"
+
+msgid "languages"
+msgstr "Langages"
+
+msgid "interests"
+msgstr "Centre d'Intérêts"
