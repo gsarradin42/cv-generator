@@ -1,30 +1,52 @@
+import os
+
 import markdown
 
 from libs.helpers.load_yaml import load_yaml
+from libs.helpers.text_utils import indent_multiple_line
 from libs.models.xp import XP
 from libs.services import i18n
 
 
-def process(xp_dir):
+def process(name):
+    xp_dir_base = os.path.join(os.getcwd(), name, "XP")
+
+    print("process XPs")
+
+    listdir = filter(
+        lambda f: os.path.isdir(os.path.join(xp_dir_base, f)), os.listdir(xp_dir_base)
+    )
+
+    return f"""
+    <section id="xp">
+        <h2>{_("xp_pro")}</h2>
+    {indent_multiple_line("\n".join([_process_single(xp_dir_base, d) for d in sorted(listdir, reverse=True)]), 2)}
+    </section>
+    """
+
+
+def _process_single(xp_dir_base, xp_dir):
+    print(f">> Process {xp_dir}")
     _ = i18n.get_translator()
 
-    xp_data = XP(**load(xp_dir))
+    xp_data = XP(**load(os.path.join(xp_dir_base, xp_dir)))
 
-    out = f"""<article>
+    out = f"""<article id="xp-{xp_dir}">
     <header>
-        <h3>{xp_data.title} / <span>{xp_data.business_domain}</span></h3>
-        <h4>{xp_data.position}<span class="period">{xp_data.get_period_string()}</span></h4>
+        <h3><span class="main">{xp_data.title}</span> / <span class="business">{xp_data.business_domain}</span></h3>
+        <h4 class="position">{xp_data.position}<span class="period">{xp_data.get_period_string()}</span></h4>
     </header>
-    {markdown.markdown(xp_data.introduction)}
-    <p>
+    <section class="introduction">
+        {markdown.markdown(xp_data.introduction)}
+    </section>
+    <section class="tasks">
         {markdown.markdown(xp_data.tasks)}
-    </p>
+    </section>
     <p class="it-keywords">
         {", ".join(xp_data.it_keywords)}
     </p>
 </article>
 """
-
     return out
 
 

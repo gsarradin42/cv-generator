@@ -4,7 +4,6 @@ import argparse
 import os
 
 from libs.helpers.project_checker import check_project_consistency
-from libs.helpers.text_utils import indent_multiple_line
 from libs.processors import (
     business_skills,
     formation,
@@ -43,30 +42,13 @@ def generate(name: str):
         {interests.process(name)}
         </div>
     </div>
-    {process_xp_list(name)}
+    {xp.process(name)}
     </body>
 </html>
 """
 
     with open(os.path.join(os.getcwd(), name, "out.html"), "w") as f:
         f.write(out_html)
-
-
-def process_xp_list(name):
-    xp_dir = os.path.join(os.getcwd(), name, "XP")
-
-    print("process XPs")
-
-    listdir = filter(
-        lambda f: os.path.isdir(os.path.join(xp_dir, f)), os.listdir(xp_dir)
-    )
-
-    return f"""
-    <section id="xp">
-        <h2>{_("xp_pro")}</h2>
-    {indent_multiple_line("\n".join([xp.process(os.path.join(xp_dir, d)) for d in listdir]), 2)}
-    </section>
-    """
 
 
 def process_args():
