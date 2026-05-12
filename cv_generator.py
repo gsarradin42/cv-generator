@@ -8,6 +8,7 @@ from libs.models.personal_info import PersonalInfo
 from libs.processors import (
     business_skills,
     formation,
+    highlights,
     interests,
     languages,
     personal_info,
@@ -45,6 +46,7 @@ def generate(name: str):
         {interests.process(name)}
         </div>
     </div>
+    {highlights.process(name)}
     {xp.process(name, personal_info_data)}
     </body>
 </html>

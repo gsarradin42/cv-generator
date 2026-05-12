@@ -51,3 +51,6 @@ msgstr "Langages"
 
 msgid "interests"
 msgstr "Interests"
+
+msgid "highlights"
+msgstr "Highlights Experiences"

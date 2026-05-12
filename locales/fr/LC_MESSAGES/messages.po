@@ -51,3 +51,6 @@ msgstr "Langages"
 
 msgid "interests"
 msgstr "Centre d'Intérêts"
+
+msgid "highlights"
+msgstr "Expériences Significatives"

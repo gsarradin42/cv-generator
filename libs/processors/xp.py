@@ -10,6 +10,8 @@ from libs.services import i18n
 
 
 def process(name, data: PersonalInfo):
+    _ = i18n.get_translator()
+
     xp_dir_base = os.path.join(os.getcwd(), name, "XP")
 
     print("process XPs")
