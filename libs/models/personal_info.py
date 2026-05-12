@@ -36,3 +36,7 @@ class PersonalInfo:
         self.nationality = nationality
         self.work_permit = work_permit
         self.adress = Adress(adress=adress)
+
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"

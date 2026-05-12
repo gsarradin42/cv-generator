@@ -4,12 +4,11 @@ import markdown
 
 from libs.helpers.load_yaml import load_yaml
 from libs.helpers.text_utils import indent_multiple_line
-from libs.models.personal_info import PersonalInfo
 from libs.models.xp import XP
 from libs.services import i18n
 
 
-def process(name, data: PersonalInfo):
+def process(name):
     _ = i18n.get_translator()
 
     xp_dir_base = os.path.join(os.getcwd(), name, "XP")
@@ -22,8 +21,6 @@ def process(name, data: PersonalInfo):
 
     return f"""
     <section id="xp">
-        <span class="set-heading left">{data.title}</span>
-        <span class="set-heading right">{data.first_name} {data.last_name}</span>
         <h2>{_("xp_pro")}</h2>
     {indent_multiple_line("\n".join([_process_single(xp_dir_base, d) for d in sorted(listdir, reverse=True)]), 2)}
     </section>

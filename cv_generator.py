@@ -31,7 +31,7 @@ def generate(name: str):
         <meta charset="utf-8">
         <link href="cv.css" rel="stylesheet">
         <link href="cv.css" media="print" rel="stylesheet">
-        <title>CV TODO</title>
+        <title>CV {personal_info_data.full_name}</title>
         <meta name="description" content="My CV">
     </head>
     <body>
@@ -46,14 +46,23 @@ def generate(name: str):
         {interests.process(name)}
         </div>
     </div>
+    {set_doc_heading(personal_info_data)}
     {highlights.process(name)}
-    {xp.process(name, personal_info_data)}
+    {xp.process(name)}
     </body>
 </html>
 """
 
     with open(os.path.join(os.getcwd(), name, "out.html"), "w") as f:
         f.write(out_html)
+
+
+def set_doc_heading(personal_data: PersonalInfo):
+    return f"""<div id="set-heading">
+        <span class="left">{personal_data.title}</span>
+        <span class="right">{personal_data.full_name}</span>
+    </div>
+"""
 
 
 def process_args():
