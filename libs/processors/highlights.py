@@ -11,6 +11,9 @@ def process(project: str):
 
     data = load_file(project)
 
+    if data is None:
+        return ""
+
     return f"""
     <section id="highlights">
     <h3>{_("highlights")}</h3>

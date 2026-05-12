@@ -1,4 +1,3 @@
-# import yaml
 from libs.helpers.load_yaml import load_yaml
 from libs.helpers.text_utils import (
     gen_tag,
@@ -14,8 +13,10 @@ def process(project) -> str:
 
     data = load_file(project)
 
+    if data is None:
+        return ""
+
     title = i18n.get_data_keylang(data, "title")
-    # data.get("title_" + lang)
 
     table_lst = [
         indent_line(
