@@ -4,6 +4,7 @@ import argparse
 import os
 
 from libs.helpers.project_checker import check_project_consistency
+from libs.models.personal_info import PersonalInfo
 from libs.processors import (
     business_skills,
     formation,
@@ -20,6 +21,8 @@ from libs.services import i18n
 def generate(name: str):
     check_project_consistency(name)
 
+    personal_info_data = PersonalInfo(data=personal_info.load_file(name))
+
     # write on big html file
     out_html = f"""
 <html>
@@ -31,7 +34,7 @@ def generate(name: str):
         <meta name="description" content="My CV">
     </head>
     <body>
-    {personal_info.process(name)}
+    {personal_info.process(pi=personal_info_data)}
     {tagline.process(name)}
     {technical_skills.process(name)}
     {business_skills.process(name)}
@@ -42,7 +45,7 @@ def generate(name: str):
         {interests.process(name)}
         </div>
     </div>
-    {xp.process(name)}
+    {xp.process(name, personal_info_data)}
     </body>
 </html>
 """

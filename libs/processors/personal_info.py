@@ -1,41 +1,35 @@
+from typing import cast
+
 from libs.helpers.load_yaml import load_yaml
 from libs.helpers.text_utils import indent_multiple_line
-from libs.models.adress import Adress
+from libs.models.personal_info import PersonalInfo
 from libs.services import i18n
 
 
-def process(project: str):
+def process(project="", pi: PersonalInfo | None = None):
     _ = i18n.get_translator()
 
-    data = load_file(project)
+    if project:
+        data = load_file(project)
+        pi = PersonalInfo(data=data)
 
-    ad = data.get("adress")
-    adress = Adress(
-        ad.get("street_name"),
-        ad.get("street_number"),
-        ad.get("zip_code"),
-        ad.get("city"),
-        ad.get("country"),
-    )
+    pi = cast(PersonalInfo, pi)
 
-    title_data = i18n.get_data_keylang(data, "title")
-    xp_data = f"{data.get('xp')} {_('years of experience')}"
-    nationality_data = _("nationality").format(
-        name=i18n.get_data_keylang(data, "nationality")
-    )
-    permit_data = _("work_permit_short").format(name=data.get("work_permit"))
+    xp_data = f"{pi.xp} {_('years of experience')}"
+    nationality_data = _("nationality").format(name=pi.nationality)
+    permit_data = _("work_permit_short").format(name=pi.work_permit)
 
     left_info = (
-        f"<p class='title'>{title_data}</p>",
+        f"<p class='title'>{pi.title}</p>",
         f"<p class='xp'>{xp_data}</p>",
         f"<p class='nationality'>{nationality_data} ({permit_data})</p>",
-        f"<p class='adress'>{adress}</p>",
+        f"<p class='adress'>{pi.adress}</p>",
     )
 
     right_info = (
-        f"<p class='name'>{data.get('first_name')} {data.get('last_name').upper()}</p>",
-        f"<p class='tel'>{_('tel_short')} : {data.get('tel')}</p>",
-        f"<p class='mail'>{_('mail_short')} : {data.get('mail')}</p>",
+        f"<p class='name'>{pi.first_name} {pi.last_name.upper()}</p>",
+        f"<p class='tel'>{_('tel_short')} : {pi.tel}</p>",
+        f"<p class='mail'>{_('mail_short')} : {pi.mail}</p>",
     )
 
     out = f"""<section id="personal-info">
