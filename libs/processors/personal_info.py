@@ -23,7 +23,7 @@ def process(project="", pi: PersonalInfo | None = None):
         f"<p class='title'>{pi.title}</p>",
         f"<p class='xp'>{xp_data}</p>",
         f"<p class='nationality'>{nationality_data} ({permit_data})</p>",
-        f"<p class='adress'>{pi.adress}</p>",
+        f"<p class='adress'>{pi.contact.adress}</p>",
     )
 
     right_info = (
@@ -33,11 +33,17 @@ def process(project="", pi: PersonalInfo | None = None):
     )
 
     out = f"""<section id="personal-info">
-        <div>
-{indent_multiple_line(left_info, 3)}
+        <div class="container-left">
+          <div class="container-photo">
+            <img class="photo"
+                src="photo_profil_CV.jpeg" />
+          </div>
+            <div>
+    {indent_multiple_line(left_info, 3)}
+            </div>
         </div>
         <div>
-{indent_multiple_line(right_info, 3)}
+  {indent_multiple_line(right_info, 3)}
         </div>
     </section>
 """

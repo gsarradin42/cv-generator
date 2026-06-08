@@ -74,3 +74,10 @@ def category_list_to_html_table_v2(cat_list, cat_key: str, lst_key: str):
             ]
         ),
     )
+
+
+def category_list(cat_list, cat_key: str, lst_key: str):
+    return [
+        (i18n.get_data_keylang(cat, cat_key), ", ".join(cat.get(lst_key)))
+        for cat in cat_list
+    ]

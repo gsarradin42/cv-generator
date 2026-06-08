@@ -35,7 +35,7 @@ def _process_single(xp_dir_base, xp_dir):
 
     out = f"""<article id="xp-{xp_dir}">
     <header>
-        <h3><span class="main">{xp_data.title}</span> / <span class="business">{xp_data.business_domain}</span></h3>
+        <h3><span class="main">{xp_data.title}</span> / <span class="business">{xp_data.business_domain.capitalize()}</span></h3>
         <h4 class="position">{xp_data.position}<span class="period">{xp_data.get_period_string()}</span></h4>
     </header>
     <section class="introduction">
