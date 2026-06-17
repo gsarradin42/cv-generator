@@ -4,6 +4,17 @@ from libs.helpers.load_yaml import load_yaml
 from libs.services import i18n
 
 
+def map(project: str):
+    _ = i18n.get_translator()
+
+    data = load_file(project)
+
+    return {
+        "title": _("interests"),
+        "content": markdown.markdown(i18n.get_data_keylang(data, "content")),
+    }
+
+
 def process(project: str):
     _ = i18n.get_translator()
 

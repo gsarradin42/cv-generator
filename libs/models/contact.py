@@ -6,7 +6,7 @@ class Contact:
         if data is not None:
             tel = data.get("tel")
             mail = data.get("mail")
-            adress = Adress(data=adress)
+            adress = Adress(data=data.get("adress"))
 
         self.tel = tel
         self.mail = mail

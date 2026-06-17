@@ -20,7 +20,8 @@ class XP:
         self.tasks = content.get("tasks")
         self.it_keywords = metadata.get("it_keywords")
 
-    def get_period_string(self):
+    @property
+    def period_string(self):
         start_dt = date_to_mmyy(self.start_date)
         if not self.end_date:
             return f"{_('since')} {start_dt}"

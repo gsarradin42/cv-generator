@@ -54,3 +54,6 @@ msgstr "Interests"
 
 msgid "highlights"
 msgstr "Highlights Experiences"
+
+msgid "contact"
+msgstr "Contact"

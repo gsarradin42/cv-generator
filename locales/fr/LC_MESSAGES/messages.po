@@ -54,3 +54,6 @@ msgstr "Centre d'Intérêts"
 
 msgid "highlights"
 msgstr "Expériences Significatives"
+
+msgid "contact"
+msgstr "Contact"

@@ -1,4 +1,3 @@
-from libs.models.adress import Adress
 from libs.models.contact import Contact
 from libs.services import i18n
 

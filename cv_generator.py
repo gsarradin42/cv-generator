@@ -3,8 +3,9 @@
 import argparse
 import os
 
+from jinja2 import Environment, FileSystemLoader
+
 from libs.helpers.project_checker import check_project_consistency
-from libs.models.personal_info import PersonalInfo
 from libs.processors import (
     business_skills,
     formation,
@@ -22,47 +23,51 @@ from libs.services import i18n
 def generate(name: str):
     check_project_consistency(name)
 
-    personal_info_data = PersonalInfo(data=personal_info.load_file(name))
+    _ = i18n.get_translator()
 
-    # write on big html file
-    out_html = f"""
-<html>
-    <head>
-        <meta charset="utf-8">
-        <link href="cv.css" rel="stylesheet">
-        <link href="cv.css" media="print" rel="stylesheet">
-        <title>CV {personal_info_data.full_name}</title>
-        <meta name="description" content="My CV">
-    </head>
-    <body>
-    {personal_info.process(pi=personal_info_data)}
-    {tagline.process(name)}
-    {technical_skills.process(name)}
-    {business_skills.process(name)}
-    <div id="fli-wrapper">
-        {formation.process(name)}
-        <div>
-        {languages.process(name)}
-        {interests.process(name)}
-        </div>
-    </div>
-    {set_doc_heading(personal_info_data)}
-    {highlights.process(name)}
-    {xp.process(name)}
-    </body>
-</html>
-"""
+    env = Environment(loader=FileSystemLoader("cv_sample"))
+    template = env.get_template("template.html")
+    # template = env.get_template("head_left_right.html")
+    out_html = template.render(
+        personal_info=personal_info.map(project=name),
+        technical_skills=technical_skills.map(name),
+        tagline=tagline.map(name),
+        formation=formation.map(name),
+        languages=languages.map(name),
+        contact_title=_("contact"),
+        interests=interests.map(name),
+        xp=xp.map(name),
+    )
 
     with open(os.path.join(os.getcwd(), name, "out.html"), "w") as f:
         f.write(out_html)
 
+    # personal_info_data = PersonalInfo(data=personal_info.load_file(name))
 
-def set_doc_heading(personal_data: PersonalInfo):
-    return f"""<div id="set-heading">
-        <span class="left">{personal_data.title}</span>
-        <span class="right">{personal_data.full_name}</span>
-    </div>
-"""
+    # write on big html file
+
+
+#     out_html = f"""
+#     {personal_info.map(pi=personal_info_data)}
+#     {tagline.process(name)}
+#     {technical_skills.process(name)}
+#     {business_skills.process(name)}
+#     <div id="fli-wrapper">
+#         {formation.process(name)}
+#         <div>
+#         {languages.process(name)}
+#         {interests.process(name)}
+#         </div>
+#     </div>
+#     {set_doc_heading(personal_info_data)}
+#     {highlights.process(name)}
+#     {xp.process(name)}
+#     </body>
+# </html>
+# """
+
+# with open(os.path.join(os.getcwd(), name, "out.html"), "w") as f:
+#     f.write(out_html)
 
 
 def process_args():
@@ -103,22 +108,22 @@ def process_args():
 
 
 if __name__ == "__main__":
-    lang = "fr"
-    i18n.set_language(lang)
-    _ = i18n.get_translator()
-
     args = process_args()
 
-    if args.lang is None:
-        lang = os.environ["LANG"]
-        try:
-            lang = lang.split(".")[0].split("_")[0]
-        except Exception:
-            lang = "en"
-    else:
-        lang = args.lang
+    locale = os.environ["LANG"] if args.lang is None else args.lang
+
+    locale = locale.split(".")[0].split("_")
+    lang = locale[0]
+    zone = (
+        os.environ["LANG"].split(".")[0].split("_")[1]
+        if len(locale) < 2
+        else locale[1].upper()
+    )
 
     i18n.set_language(lang)
+    i18n.set_zone(zone)
+
+    print(f">> Generation for lang: '{lang}', zone: '{zone}'")
 
     if args.generate is not None:
         print(f">> process Generation for {args.generate}")
