@@ -17,13 +17,15 @@ def map(project="", pi: PersonalInfo | None = None) -> PersonalInfoDto:
 
     xp_data = f"{pi.xp} {_('years of experience')}"
     nationality_data = _("nationality").format(name=pi.nationality)
-    permit_data = _("work_permit_short").format(name=pi.work_permit)
+    permit_data = None
+    if i18n.get_zone() != "FR":
+        permit_data = _("work_permit_short").format(name=pi.work_permit)
 
     return PersonalInfoDto(
         pi.title,
         f"{pi.first_name} {pi.last_name.upper()}",
-        f"{_('tel_short')} : {pi.contact.tel}",
-        f"{_('mail_short')} : {pi.contact.mail}",
+        (_("tel_short"), pi.contact.tel),
+        (_("mail_short"), pi.contact.mail),
         pi.contact.adress.getAdressParts(i18n.get_zone())
         if pi.contact.adress is not None
         else None,

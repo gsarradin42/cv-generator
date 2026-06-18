@@ -1,5 +1,5 @@
 from libs.helpers.load_yaml import load_yaml
-from libs.helpers.text_utils import category_list, indent_multiple_line
+from libs.helpers.text_utils import category_list
 from libs.models.dto.technical_skills_dto import TechnicallSkillsDto
 from libs.services import i18n
 
