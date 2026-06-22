@@ -27,7 +27,7 @@ class XP:
             return f"{_('since')} {start_dt}"
 
         end_dt = date_to_mmyy(self.end_date)
-        return f"{start_dt} — {end_dt}"
+        return f"{start_dt} – {end_dt}"
 
     @property
     def short_title(self):

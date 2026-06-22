@@ -47,7 +47,7 @@ msgid "formation"
 msgstr "Formation"
 
 msgid "languages"
-msgstr "Langages"
+msgstr "Langues"
 
 msgid "interests"
 msgstr "Centre d'Intérêts"

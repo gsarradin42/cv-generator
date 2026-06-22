@@ -15,5 +15,5 @@ class XpDto:
         self.summary = markdown.markdown(data.summary)
         self.introduction = markdown.markdown(data.introduction)
         self.tasks = markdown.markdown(data.tasks)
-        self.it_keywords = ", ".join(data.it_keywords)
+        self.it_keywords = (", ".join(data.it_keywords), data.it_keywords)
         self.period = data.period_string
