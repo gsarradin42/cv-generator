@@ -24,13 +24,17 @@ class Adress:
     def getAdressParts(self, zone: str, show_country=False):
         return (
             self.getAdressFirstPart(zone),
-            f"{self.zip_code} {self.city}{' ' + self.country if self.country is not None and show_country else ''}",
+            self.zip_code,
+            self.city,
+            self.country,
         )
 
     def toString(self, zone: str, show_country=False):
         return " — ".join(self.getAdressParts(zone, show_country))
 
     def getAdressFirstPart(self, zone: str):
+        if not self.street_name:
+            return None
         match zone:
             case "BE" | "CH":
                 return f"{self.street_name} {self.street_number}"
