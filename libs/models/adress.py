@@ -22,15 +22,12 @@ class Adress:
         self.country = country
 
     def getAdressParts(self, zone: str, show_country=False):
-        return (
-            self.getAdressFirstPart(zone),
-            self.zip_code,
-            self.city,
-            self.country,
-        )
-
-    def toString(self, zone: str, show_country=False):
-        return " — ".join(self.getAdressParts(zone, show_country))
+        return {
+            "first_part": self.getAdressFirstPart(zone),
+            "zip_code": self.zip_code,
+            "city": self.city,
+            "country": self.country,
+        }
 
     def getAdressFirstPart(self, zone: str):
         if not self.street_name:
