@@ -91,4 +91,9 @@ def get_translation() -> gettext.NullTranslations:
 
 def get_data_keylang(data, key: str) -> str:
     value: str = data.get(f"{key}_{_current_lang}")
-    return value if value else data.get(f"{key}_{LOCALE_FALLBACK[0]}")
+    if not value:
+        value = data.get(key)
+    if not value:
+        value = data.get(f"{key}_{LOCALE_FALLBACK[0]}")
+
+    return value

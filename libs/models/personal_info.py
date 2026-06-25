@@ -19,7 +19,7 @@ class PersonalInfo:
             last_name = data.get("last_name")
             title = i18n.get_data_keylang(data, "title")
             xp = data.get("xp")
-            nationality = i18n.get_data_keylang(data, "nationality")
+            nationality = data.get("nationality")
             work_permit = data.get("work_permit")
             contact = data.get("contact")
 

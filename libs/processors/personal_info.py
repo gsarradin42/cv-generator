@@ -16,9 +16,12 @@ def map(project="", pi: PersonalInfo | None = None) -> PersonalInfoDto:
     pi = cast(PersonalInfo, pi)
 
     xp_data = f"{pi.xp} {_('years of experience')}"
-    nationality_data = _("nationality").format(name=pi.nationality)
+    nationality_data = None
     permit_data = None
-    if i18n.get_zone() != "FR":
+    if i18n.get_zone() != pi.nationality.upper():
+        nationality_data = _("nationality").format(
+            name=_(pi.nationality + "_nat").lower()
+        )
         permit_data = _("work_permit_short").format(name=pi.work_permit)
 
     return PersonalInfoDto(

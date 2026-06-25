@@ -57,3 +57,18 @@ msgstr "Highlights Experiences"
 
 msgid "contact"
 msgstr "Contact"
+
+msgid "fr_nat"
+msgstr "French"
+
+msgid "ch_nat"
+msgstr "Switz"
+
+msgid "be_nat"
+msgstr "Belgian"
+
+msgid "uk_nat"
+msgstr "English"
+
+msgid "us_nat"
+msgstr "American"

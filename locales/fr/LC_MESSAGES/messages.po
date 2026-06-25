@@ -57,3 +57,18 @@ msgstr "Expériences Significatives"
 
 msgid "contact"
 msgstr "Contact"
+
+msgid "fr_nat"
+msgstr "Française"
+
+msgid "ch_nat"
+msgstr "Suisse"
+
+msgid "be_nat"
+msgstr "Belge"
+
+msgid "uk_nat"
+msgstr "Anglaise"
+
+msgid "us_nat"
+msgstr "Américaine"

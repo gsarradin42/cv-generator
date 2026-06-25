@@ -1,4 +1,5 @@
 from libs.helpers.date import date_to_mmyy, mmyy_to_date
+from libs.services import i18n
 
 
 class XP:
@@ -10,6 +11,7 @@ class XP:
         self.title = (
             content.get("title") if content.get("title") else metadata.get("title")
         )
+        self.location = i18n.get_data_keylang(metadata, "location")
         self.position = (
             content.get("position")
             if content.get("position")
