@@ -1,4 +1,5 @@
 import re
+import unicodedata
 
 from libs.services import i18n
 
@@ -85,3 +86,17 @@ def category_list(cat_list, cat_key: str, lst_key: str):
         )
         for cat in cat_list
     ]
+
+def slugifier(text: str, lower=True):
+    text = unicodedata.normalize("NFKD", text)
+    text = "".join(
+        caractere
+        for caractere in text
+        if not unicodedata.combining(caractere)
+    )
+
+    if lower:
+        text = text.lower()
+
+    text = re.sub(r"[^A-Za-z]+", "_", text)
+    return text.strip("_")

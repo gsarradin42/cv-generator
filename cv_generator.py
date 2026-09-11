@@ -2,14 +2,17 @@
 
 import argparse
 import os
+import subprocess
+import sys
 
 from jinja2 import Environment, FileSystemLoader
 
+from libs.helpers.date import yymmdd_to_date
+from libs.helpers.load_yaml import load_yaml
 from libs.helpers.project_checker import check_project_consistency
+from libs.helpers.text_utils import slugifier
 from libs.processors import (
-    business_skills,
     formation,
-    highlights,
     interests,
     languages,
     personal_info,
@@ -19,9 +22,27 @@ from libs.processors import (
 )
 from libs.services import i18n
 
+JOB_AD_FILENAME = "job_ad.yml"
 
 def generate(name: str):
     check_project_consistency(name)
+
+    job_ad = load_yaml(name, JOB_AD_FILENAME)
+
+    locale = args.lang or (job_ad and job_ad.get('locale')) or os.environ["LANG"]
+
+    locale = locale.split(".")[0].split("_")
+    lang = locale[0]
+    zone = (
+        os.environ["LANG"].split(".")[0].split("_")[1]
+        if len(locale) < 2
+        else locale[1].upper()
+    )
+
+    i18n.set_language(lang)
+    i18n.set_zone(zone)
+
+    print(f">> Generation for lang: '{lang}', zone: '{zone}'")
 
     _ = i18n.get_translator()
 
@@ -39,13 +60,43 @@ def generate(name: str):
         xp=xp.map(name),
     )
 
-    with open(os.path.join(os.getcwd(), name, "out.html"), "w") as f:
+    outfile = get_outfilename(name)
+
+    outpath = os.path.join(os.getcwd(), name, "out", outfile + ".html")
+
+    with open(outpath, "w") as f:
         f.write(out_html)
+
+    print("Written to " + outpath)
 
     # personal_info_data = PersonalInfo(data=personal_info.load_file(name))
 
     # write on big html file
 
+
+def create(name: str):
+    output = subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], check=False, capture_output=True)
+
+    if output.stderr or (output.stdout and output.stdout.decode('utf-8').strip() != 'true'):
+        raise OSError("Not a git repository")
+
+    job_ad = load_jobad(name)
+
+    company_slug = slugifier(job_ad.get("company"))
+    title_slug = slugifier(job_ad.get("title"))
+    location_slug = slugifier(job_ad.get("location"))
+
+    branch_name = f"{company_slug}__{title_slug}__{location_slug}"
+
+    print("Nom de la branche : " + branch_name)
+    user_input = input("Créer la branche ? (o/N)").lower() or 'n'
+
+    if user_input == 'n':
+        return
+
+    print("Création de la branche")
+    subprocess.run(["git", "checkout", "-b", branch_name],
+    check=False, capture_output=True)
 
 #     out_html = f"""
 #     {personal_info.map(pi=personal_info_data)}
@@ -68,7 +119,30 @@ def generate(name: str):
 
 # with open(os.path.join(os.getcwd(), name, "out.html"), "w") as f:
 #     f.write(out_html)
+#
 
+
+def load_jobad(name: str):
+    job_ad = load_yaml(name, JOB_AD_FILENAME)
+    if job_ad == None:
+        raise FileNotFoundError(JOB_AD_FILENAME)
+
+    missing_keys = [key for key in ['company', 'title', 'location'] if job_ad.get(key) == None]
+    if missing_keys:
+        raise ValueError("Missing key(s): " + ", ".join([key for key in missing_keys]))
+
+    return job_ad
+
+def get_outfilename(name: str):
+    job_ad = load_jobad(name)
+    company_slug = slugifier(job_ad.get("company"), lower=False)
+    title_slug = slugifier(job_ad.get("title"), lower=False)
+    location_slug = slugifier(job_ad.get("location"), lower=False)
+    out = f"CV__{company_slug}__{title_slug}__{location_slug}"
+    publish_date = yymmdd_to_date(job_ad.get("publish_date"))
+    if publish_date:
+       out += f"__{publish_date}"
+    return out
 
 def process_args():
     parser = argparse.ArgumentParser(
@@ -99,6 +173,13 @@ def process_args():
         required=False,
     )
 
+    parser.add_argument(
+        "--outfilename",
+        type=str,
+        help="display outfilename",
+        required=False,
+    )
+
     args = parser.parse_args()
 
     if len(vars(args)) == 0:
@@ -106,30 +187,18 @@ def process_args():
 
     return args
 
-
 if __name__ == "__main__":
     args = process_args()
-
-    locale = os.environ["LANG"] if args.lang is None else args.lang
-
-    locale = locale.split(".")[0].split("_")
-    lang = locale[0]
-    zone = (
-        os.environ["LANG"].split(".")[0].split("_")[1]
-        if len(locale) < 2
-        else locale[1].upper()
-    )
-
-    i18n.set_language(lang)
-    i18n.set_zone(zone)
-
-    print(f">> Generation for lang: '{lang}', zone: '{zone}'")
 
     if args.generate is not None:
         print(f">> process Generation for {args.generate}")
         generate(args.generate)
-        exit()
+        sys.exit()
 
     if args.new is not None:
-        print("Create!")
-        exit()
+        create(args.new)
+        sys.exit()
+
+    if args.outfilename is not None:
+        print(get_outfilename(args.outfilename))
+        sys.exit()
