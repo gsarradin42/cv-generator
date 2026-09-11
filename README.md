@@ -1,6 +1,9 @@
 # CV Generator
 
-Generate a CV to HTML (and soon PDF) format using data recorded through YAML files.
+Generate a CV to HTML format using data recorded through YAML files.
+
+Weasyprint can be used to convert to PDF.
+If document layout is a little bit complex (using columns), prefered using web browser's printing feature. (it's possible to do printing in headless mode through selenium)
 
 Goal: have the control of CV data for versioning (with Git), easier to create / modify / insert new XP, easier to maintain several languages, fork it, backport it, tag it, etc.
 
@@ -24,6 +27,8 @@ Professional experiences are located in a "XP" named folder that contains as man
 - `metadata.yml` : period, short title, it keywords, business domain (no language variant)
 - `content_<lang>.yml` : title, summary, introduction, tasks (separated file for each language variant)
 
+## Template
+CV Generator use HTML template (by using Jinja2) to produce the desired output. It uses target folder template.
 
 ## Build project
 
@@ -31,3 +36,7 @@ Professional experiences are located in a "XP" named folder that contains as man
 $ make clean all
 ```
 It compiles i18n files (`.mo` to `.po` located in **locales/[lang]/LC_MESSAGES**)
+
+
+## Printing with browser in headless modes
+TODO
