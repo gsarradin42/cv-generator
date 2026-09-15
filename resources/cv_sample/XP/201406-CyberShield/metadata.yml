@@ -1,0 +1,16 @@
+short_title: HUG
+
+period:
+  start: "06.2014"
+  end: "12.2020"
+
+it_keywords:
+  [
+    Microsoft Sentinel,
+    Splunk,
+    Qualys,
+    ServiceNow,
+    CrowdStrike Falcon,
+    Nessus,
+    Tenable.io
+  ]

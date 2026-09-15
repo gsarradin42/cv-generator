@@ -1,0 +1,206 @@
+/* Variables */
+:root {
+    --light-blue: #88b4dc;
+    --violet: #8d3589;
+    --blue: #005aa2;
+    --dark-blue: #3465a4;
+    --green: #00b050;
+    --dark-red: #c00000;
+    --light-red: #d64b13;
+    --gray: #7f7f7f;
+    --light-gray: #80888c;
+
+    --it-keyword-color: var(--blue);
+    --techskill-section-title-color: var(--violet);
+    --bizskill-section-title-color: var(--green);
+    --formation-color: var(--light-red);
+    --position-heading-color: var(--dark-red);
+    --position-xp-color: var(--violet);
+    --xp-section-title-color: var(--light-gray);
+    --xp-title-color: var(--blue);
+    --xp-domain-color: var(--green);
+    --text-body-color: var(--gray);
+
+    --table-border: 1pt solid lightgray;
+}
+
+@media print {
+    @page {
+        size: a4;
+        margin: 10mm 15mm 15mm 15mm;
+    }
+}
+
+html {
+    color: var(--text-body-color);
+    font-family: Sans;
+    font-size: 11pt;
+    font-weight: 300;
+    line-height: 1.5;
+}
+
+body {
+    margin: 0;
+
+    p {
+        margin: 0;
+    }
+
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 0;
+    }
+
+    h2,
+    h3 {
+        font-weight: 400;
+    }
+
+    h2 {
+        text-transform: uppercase;
+    }
+}
+
+#personal-info {
+    display: flex;
+    justify-content: space-between;
+
+    .title {
+        color: var(--position-heading-color);
+        font-weight: bold;
+        font-size: 14pt;
+    }
+
+    .name {
+        font-weight: bold;
+    }
+}
+
+#tagline {
+    margin: 10pt 15pt 5pt;
+    p:first-child {
+        padding: 4pt 8pt;
+        text-align: justify;
+        color: var(--blue);
+        border: 1pt solid var(--gray);
+        border-radius: 4pt;
+        box-shadow: 4pt 4pt 4pt lightgray;
+    }
+}
+
+#technical-skills {
+    h2 {
+        color: var(--techskill-section-title-color);
+    }
+
+    table {
+        border-collapse: collapse;
+        tr:first-child,
+        tr:last-child {
+            td {
+                border: none;
+            }
+        }
+        td {
+            border-top: var(--table-border);
+            border-bottom: var(--table-border);
+
+            &:last-child {
+                font-size: 0.9em;
+            }
+        }
+        tr > td:first-child {
+            text-transform: uppercase;
+            padding-right: 8pt;
+            font-weight: 600;
+        }
+    }
+}
+
+#business-skills {
+    h2 {
+        color: var(--bizskill-section-title-color);
+    }
+
+    table {
+        border-collapse: collapse;
+        tr:first-child,
+        tr:last-child {
+            td {
+                border: none;
+            }
+        }
+        td {
+            border-top: var(--table-border);
+            border-bottom: var(--table-border);
+        }
+        tr > td:first-child {
+            padding-right: 8pt;
+            font-weight: bold;
+        }
+    }
+}
+
+#fli-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+#formation,
+#languages,
+#interests {
+    h2 {
+        color: var(--light-red);
+    }
+
+    td:first-child {
+        color: var(--light-red);
+    }
+}
+
+#xp {
+    header {
+        h3 {
+            color: var(--blue);
+            span {
+                color: var(--xp-domain-color);
+            }
+        }
+        h4 {
+            display: flex;
+            justify-content: space-between;
+            color: var(--position-xp-color);
+            .period {
+                font-size: 9pt;
+                align-content: center;
+                color: var(--text-body-color);
+                font-weight: bold;
+            }
+        }
+    }
+    article {
+        .it-keywords {
+            &::before,
+            &::after {
+                content: "//";
+            }
+            text-align: center;
+            color: var(--it-keyword-color);
+        }
+    }
+}
+
+.pagebreak {
+    /*clear: both;*/
+    break-before: always;
+}
+
+/* Fonts */
+@font-face {
+    font-family: Fira Sans;
+    font-weight: 400;
+    src: url(FiraSans-Regular.ttf);
+}

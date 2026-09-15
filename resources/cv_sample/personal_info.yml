@@ -1,0 +1,16 @@
+first_name: Jean
+last_name: Aymare
+title_en: Ingénieur Fullstack
+title_fr: Fullstack Engineer
+xp: 42
+nationality: fr
+work_permit: Z
+contact:
+  tel: +42 01 02 03 04
+  mail: jeanaimar@maville.org
+  adress:
+    street_name: Rue des rosiers fleuris
+    street_number: 42
+    zip_code: 424242
+    city: Maville
+    country: Monpays

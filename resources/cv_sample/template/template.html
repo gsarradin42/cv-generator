@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link href="cv.css" rel="stylesheet" />
+        <link href="cv.css" media="print" rel="stylesheet" />
+        <title>CV</title>
+        <meta name="description" content="My CV" />
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <h1 id="fullname">{{personal_info.fullname}}</h1>
+                <h2 id="title">{{personal_info.title}}</h2>
+                <span id="my-xp">{{personal_info.xp}}</span>
+                {% if personal_info.nationality %}
+                <p id="nationality">{{personal_info.nationality}} ({{personal_info.work_permit}})</p>
+                {% endif %}
+            </div>
+        </header>
+        <div id="left-right">
+            <aside>
+                <section id="contact">
+                    <p id="tel">{{personal_info.tel[0]}}: {{personal_info.tel[1]}}</p>
+                    <p id="mail">{{personal_info.mail[0]}}: {{personal_info.mail[1]}}</p>
+                    {% if personal_info.adress %}
+                    {% with adress = personal_info.adress %}
+                    <p id="adress">{{adress.first_part}} — {{adress.zip_code}} {{adress.city}} ({{adress.country}})</p>
+                    {% endwith %}
+                    {% endif %}
+                </section>
+                <section id="technical-skills">
+                    <h2 id="skills-title">{{technical_skills.title}}</h2>
+
+                    <dl class="skills">
+                        {% for skill in technical_skills.list %}
+                        <dt class="skill-title">{{ skill[0] }}</dt>
+                        <dd class="skill-it-keywords">{{ skill[1] }}</dd>
+                        {% endfor %}
+                    </dl>
+
+                </section>
+                <section id="languages">
+                    <h2 id="languages-title">{{languages.title}}</h2>
+                    <dl>
+                        {% for lang in languages.list %}
+                        <dt class="lang-name">{{lang[0]}}</dt>
+                        <dd class="lang-level">{{lang[1]}}</dd>
+                        {% endfor %}
+                    </dl>
+                </section>
+                <section id="formation">
+                    <h2 class="formation-title">{{formation.title}}</h2>
+                    <dl>
+                        {% for item in formation.list %}
+                        <dt class="formation-subject">{{item[2]}}</dt>
+                        <dd>
+                            <span class="organization">{{item[0]}}</span>&nbsp;–&nbsp;<span class="formation-year">{{item[1]}}</span>
+                        </dd>
+                        {% endfor %}
+                    </dl>
+                </section>
+                <section id="interests">
+                    <h2 id="interests-title">{{interests.title}}</h2>
+                    <p id="interests-content">{{interests.content}}</p>
+                </section>
+            </aside>
+            <main>
+                <section id="tagline">
+                    <article id="tagline-content">{{tagline.content}}</article>
+                    <p id="tagline-info">{{tagline.info}}</p>
+                </section>
+                <section id="xp">
+                    <h2 class="xp-title">{{xp.title}}</h2>
+                    <div class="container">
+                        {% for item in xp.list %}
+                        <article id="xp-{{item.dir}}">
+                            <header>
+                                <h3>
+                                    <span class="xp-company">{{item.title}}</span> /
+                                    <span class="xp-business">{{item.business_domain}}</span>
+                                </h3>
+                                <h4 class="xp-position">
+                                    {{item.position}}
+                                    <span>
+                                        {% if item.location %}
+                                        <span class="xp-location">{{item.location}}</span>
+                                        {% endif %}
+                                        <span class="xp-period">{{item.period}}</span>
+                                    </span>
+                                </h4>
+                            </header>
+                            <section class="intro-or-summary">
+                                {{item.intro_or_summary}}
+                            </section>
+                            {% if item.tasks %}
+                            <section class="xp-tasks">{{item.tasks}}</section>
+                            {% endif %}
+                            <p class="it-keywords">
+                                {% for it in item.it_keywords[1] %}
+                                <span class="xp-it">{{it}}</span>
+                                {% endfor %}
+                            </p>
+                        </article>
+                        {% endfor %}
+                    </div>
+                </section>
+            </main>
+        </div>
+    </body>
+</html>

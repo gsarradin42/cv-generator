@@ -1,0 +1,11 @@
+title_en: TECHNICAL SKILLS
+title_fr: COMPÉTENCES TECHNIQUES
+list:
+  - tools:
+    title_fr: Outils
+    title_en: Tools
+    it_keywords: [Metasploit, Burp Suite, Qualys]
+
+  - operating_system:
+    title_en: OS
+    it_keywords: [Linux, MacOS, Windows]

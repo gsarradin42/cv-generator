@@ -1,0 +1,20 @@
+formation:
+  - organization: IT TRAINING ACADEMY
+    year: 2025
+    content_en: Data Engineer
+
+  - organization: Massachusetts Institute of Technology
+    year: 2005
+    content_en: Master in Computer Science
+    content_fr: Master en Informatique
+
+language:
+  - title_en: FRENCH
+    title_fr: FRANÇAIS
+    level_en: Mother tongue
+    level_fr: Langue maternelle
+
+  - title_en: ENGLISH
+    title_fr: ANGLAIS
+    level_en: Fluent
+    level_fr: Courant

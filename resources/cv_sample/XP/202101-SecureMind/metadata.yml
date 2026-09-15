@@ -1,0 +1,15 @@
+short_title: HUG
+
+period:
+  start: "01.2021"
+
+it_keywords:
+  [
+    KnowBe4,
+    Burp Suite,
+    OWASP ZAP,
+    Nmap,
+    Wireshark,
+    Kali Linux,
+    Metasploit,
+  ]
