@@ -13,3 +13,13 @@
 [*] XP
   [*] short_title should be optional, if absent fallbakc to title
   [*] retrieve title and position in content file (and then metadata file if not found)
+
+[*] Creating CV Project
+  [*] init an new project
+  [*] use job_ad.yml
+  [*] create derivative CV
+  [*] makefile for automate project management
+    [*] new
+    [*] compute CV out name
+    [*] pdf/html generation
+    [ ] generate markdown from job_ad.yml

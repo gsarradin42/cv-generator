@@ -12,6 +12,18 @@ Generate html
 $ cv_generator.py -g my_cv/
 ```
 
+## Recommended way to generate
+I recommend you to create a new project CV with the generator: it will create new git project with sample data to generate CV.
+It will also contain a `Makefile` in order to automate generation.
+
+```sh
+$ cv_generator.py -i my_cv_project
+```
+
+You can then derived your CV project for customisation (against a job ad for example)
+
+Look at [this doc](resources/README.md) for further information
+
 ## CV structured data
 
 CV data must be structured through YAML files. Each file represents a CV section.
@@ -34,77 +46,6 @@ Professional experiences are located in a "XP" named folder that contains as man
 
 ## Template
 CV Generator use HTML template (by using Jinja2) to produce the desired output. It uses target folder template.
-
-## Create new CV version
-> Prerequisite: your CV must be a git project (do a `git init`)
-
-> **`tl;dr`**
-> ```
-> $ cd mycv/ && cv_generator -n .
-> ```
-
-You also need a `job_ad.yml` file at your project root.
-
-`job_ad.yml` structure:
-```yaml
-company: The Big Enterprise
-title: Tech Lead Java
-location: Moon
-locale: fr_FR # <lang>_<zone>
-publish_date: 2026.09.08
-
-content: |
-  job description, may be in markdown
-```
-`locale` is not mandatory, fallback to `-l` switch or system env.
-
-With this example it will create a new branch named `the_big_entreprise__tech_lead_java__moon`
-
-## Generate CV with automatic filename
-
-> Prerequisite: need a `job_ad.yml`
-
-Use `cv_generator --outfilename my_cv/` to generate the name based on `job_ad.yml` data.
-
-With the same example over, the filename will be: `The_Big_Entreprise__Tech_Lead_Java__Moon__2026-09-08`
-
-Let's use a `makefile` in the cv project:
-
-```makefile
-include ./env.mk
-
-FILENAME := $(shell $(CV_GENERATOR) --outfilename .)
-
-ASSETS_OUT = $(patsubst %,$(OUTDIR)/%,$(ASSETS))
-
-HTML = $(OUTDIR)/$(FILENAME).html
-TARGET = $(OUTDIR)/$(FILENAME).pdf
-
-.PHONY: all html copy_assets clean view
-
-all: $(TARGET)
-
-copy_assets: $(ASSETS_OUT)
-
-html: $(HTML)
-
-view: $(TARGET)
-	open $(TARGET) &>/dev/null
-
-$(ASSETS_OUT): $(ASSETS)
-	cp $(ASSETS) $(OUTDIR)
-
-# $< stands for source ressources (or *.html) while $@ stands for generated (*.pdf)
-# $^ stands for source + generated
-$(OUTDIR)/%.pdf: $(OUTDIR)/%.html
-	$(PDF_DRIVER) $< $@
-
-$(HTML): $(ASSETS_OUT)
-	$(CV_GENERATOR) -g .
-
-clean:
-	rm -f $(HTML) $(TARGET)
-```
 
 ## Build project
 

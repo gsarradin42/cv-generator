@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import shutil
 import subprocess
 import sys
 
@@ -24,12 +25,15 @@ from libs.services import i18n
 
 JOB_AD_FILENAME = "job_ad.yml"
 
+
 def generate(name: str):
     check_project_consistency(name)
 
     job_ad = load_yaml(name, JOB_AD_FILENAME)
 
-    locale = args.lang or (job_ad and job_ad.get('locale')) or os.environ["LANG"]
+    print("args", args)
+
+    locale = args.lang or (job_ad and job_ad.get("locale")) or os.environ["LANG"]
 
     locale = locale.split(".")[0].split("_")
     lang = locale[0]
@@ -46,7 +50,7 @@ def generate(name: str):
 
     _ = i18n.get_translator()
 
-    env = Environment(loader=FileSystemLoader("cv_sample"))
+    env = Environment(loader=FileSystemLoader(os.path.join(name, "template")))
     template = env.get_template("template.html")
     # template = env.get_template("head_left_right.html")
     out_html = template.render(
@@ -62,6 +66,9 @@ def generate(name: str):
 
     outfile = get_outfilename(name)
 
+    if not os.path.exists(os.path.join(os.getcwd(), name, "out")):
+        os.mkdir(os.path.join(os.getcwd(), name, "out"))
+
     outpath = os.path.join(os.getcwd(), name, "out", outfile + ".html")
 
     with open(outpath, "w") as f:
@@ -75,9 +82,13 @@ def generate(name: str):
 
 
 def create(name: str):
-    output = subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], check=False, capture_output=True)
+    output = subprocess.run(
+        ["git", "rev-parse", "--is-inside-work-tree"], check=False, capture_output=True
+    )
 
-    if output.stderr or (output.stdout and output.stdout.decode('utf-8').strip() != 'true'):
+    if output.stderr or (
+        output.stdout and output.stdout.decode("utf-8").strip() != "true"
+    ):
         raise OSError("Not a git repository")
 
     job_ad = load_jobad(name)
@@ -89,14 +100,46 @@ def create(name: str):
     branch_name = f"{company_slug}__{title_slug}__{location_slug}"
 
     print("Nom de la branche : " + branch_name)
-    user_input = input("Créer la branche ? (o/N)").lower() or 'n'
+    user_input = input("Créer la branche ? (o/N)").lower() or "n"
 
-    if user_input == 'n':
+    if user_input == "n":
         return
 
     print("Création de la branche")
-    subprocess.run(["git", "checkout", "-b", branch_name],
-    check=False, capture_output=True)
+    subprocess.run(
+        ["git", "checkout", "-b", branch_name], check=False, capture_output=True
+    )
+
+
+def init(name: str):
+    new_cv_path = os.path.join(os.getcwd(), name)
+
+    if os.path.exists(new_cv_path):
+        print(f"Le fichier ou le répertoire {name} existe déjà !")
+        sys.exit(1)
+
+    os.mkdir(name)
+
+    subprocess.run(["git", "init"], cwd=name, check=False)
+
+    resources_path = os.path.join(os.getcwd(), "resources")
+
+    for file in [
+        os.path.join("cv_project_build", "makefile"),
+        os.path.join("cv_project_build", "env.mk"),
+        "job_ad.yml",
+        "README.md",
+    ]:
+        shutil.copy(os.path.join(resources_path, file), new_cv_path)
+
+    os.mkdir(os.path.join(new_cv_path, 'out'))
+
+    shutil.copy(
+        os.path.join(resources_path, "gitignore"),
+        os.path.join(new_cv_path, ".gitignore"),
+    )
+
+    shutil.copytree(os.path.join(os.getcwd(), 'resources', 'cv_sample'), new_cv_path, dirs_exist_ok=True)
 
 #     out_html = f"""
 #     {personal_info.map(pi=personal_info_data)}
@@ -127,11 +170,14 @@ def load_jobad(name: str):
     if job_ad == None:
         raise FileNotFoundError(JOB_AD_FILENAME)
 
-    missing_keys = [key for key in ['company', 'title', 'location'] if job_ad.get(key) == None]
+    missing_keys = [
+        key for key in ["company", "title", "location"] if job_ad.get(key) == None
+    ]
     if missing_keys:
         raise ValueError("Missing key(s): " + ", ".join([key for key in missing_keys]))
 
     return job_ad
+
 
 def get_outfilename(name: str):
     job_ad = load_jobad(name)
@@ -141,13 +187,16 @@ def get_outfilename(name: str):
     out = f"CV__{company_slug}__{title_slug}__{location_slug}"
     publish_date = yymmdd_to_date(job_ad.get("publish_date"))
     if publish_date:
-       out += f"__{publish_date}"
+        out += f"__{publish_date}"
     return out
+
 
 def process_args():
     parser = argparse.ArgumentParser(
         prog="cv_generator", description="Options de cv_generator"
     )
+
+    parser.add_argument("-i", "--init", type=str, help="Init a new CV repository")
 
     parser.add_argument(
         "-n",
@@ -187,6 +236,7 @@ def process_args():
 
     return args
 
+
 if __name__ == "__main__":
     args = process_args()
 
@@ -197,6 +247,10 @@ if __name__ == "__main__":
 
     if args.new is not None:
         create(args.new)
+        sys.exit()
+
+    if args.init is not None:
+        init(args.init)
         sys.exit()
 
     if args.outfilename is not None:

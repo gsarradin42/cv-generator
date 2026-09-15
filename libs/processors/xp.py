@@ -25,7 +25,7 @@ def map(name):
     }
 
 
-def _map_single(xp_dir_base, xp_dir):
+def _map_single(xp_dir_base: str, xp_dir: str) -> XpDto:
     print(f"> process {xp_dir}")
     xp_data = XP(**load(os.path.join(xp_dir_base, xp_dir)))
     return XpDto(xp_data, dir=xp_dir)

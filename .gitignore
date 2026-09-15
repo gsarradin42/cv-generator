@@ -2,3 +2,4 @@
 locales/**/*.mo
 __pycache__
 /venv
+out
