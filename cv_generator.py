@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -97,6 +98,10 @@ def create(name: str):
     title_slug = slugifier(job_ad.get("title"))
     location_slug = slugifier(job_ad.get("location"))
 
+    if job_ad.get("url") is None:
+        print(f"'url' is missing in {JOB_AD_FILENAME}", sys.stderr)
+        sys.exit(1)
+
     branch_name = f"{company_slug}__{title_slug}__{location_slug}"
 
     print("Nom de la branche : " + branch_name)
@@ -132,14 +137,19 @@ def init(name: str):
     ]:
         shutil.copy(os.path.join(resources_path, file), new_cv_path)
 
-    os.mkdir(os.path.join(new_cv_path, 'out'))
+    os.mkdir(os.path.join(new_cv_path, "out"))
 
     shutil.copy(
         os.path.join(resources_path, "gitignore"),
         os.path.join(new_cv_path, ".gitignore"),
     )
 
-    shutil.copytree(os.path.join(os.getcwd(), 'resources', 'cv_sample'), new_cv_path, dirs_exist_ok=True)
+    shutil.copytree(
+        os.path.join(os.getcwd(), "resources", "cv_sample"),
+        new_cv_path,
+        dirs_exist_ok=True,
+    )
+
 
 #     out_html = f"""
 #     {personal_info.map(pi=personal_info_data)}
@@ -179,16 +189,64 @@ def load_jobad(name: str):
     return job_ad
 
 
-def get_outfilename(name: str):
+def get_outfilename(name: str, prefix="CV"):
     job_ad = load_jobad(name)
     company_slug = slugifier(job_ad.get("company"), lower=False)
     title_slug = slugifier(job_ad.get("title"), lower=False)
     location_slug = slugifier(job_ad.get("location"), lower=False)
-    out = f"CV__{company_slug}__{title_slug}__{location_slug}"
+    out = f"{company_slug}__{title_slug}__{location_slug}"
+    if prefix is not None:
+        out = f"{prefix}__{out}"
     publish_date = yymmdd_to_date(job_ad.get("publish_date"))
     if publish_date:
         out += f"__{publish_date}"
     return out
+
+
+"""
+Generate a markdown output from `job_ad.yml`
+"""
+
+
+def gen_jobad(name: str):
+    job_ad = load_jobad(name)
+
+    _ = i18n.get_translator()
+
+    header = []
+
+    # iterate through yaml header keys
+    for item in [
+        "company",
+        "title",
+        "location",
+        "publish_date",
+        "due_date",
+        "url",
+    ]:
+        if job_ad.get(item) is None:
+            continue
+        value: str = job_ad.get(item)
+
+        # search translation by prepending item with "ad." or item as key directly
+        key_ad = "ad." + item
+        trans = _(key_ad) if _(key_ad) != key_ad else _(item)
+
+        # if url is a real url, do special markdown treatment : show only base url and point to the whole url
+        if item == "url" and re.match("https?://", value):
+            url_items = [
+                it for idx, it in enumerate(value.split("/")) if idx < 2 or item
+            ]
+            if len(url_items) > 2:
+                value = f"[{url_items[2]}]({value})"
+
+        header.append(f"> - **{trans.capitalize()}** : {value}")
+
+    print("\n".join(header))
+
+    # take content value as-is (it can be raw text or markdown)
+    if job_ad.get("content"):
+        print(job_ad.get("content"))
 
 
 def process_args():
@@ -229,6 +287,13 @@ def process_args():
         required=False,
     )
 
+    parser.add_argument(
+        "--jobad-gen",
+        type=str,
+        help="generate job advertisement from job_ad.yml",
+        required=False,
+    )
+
     args = parser.parse_args()
 
     if len(vars(args)) == 0:
@@ -255,4 +320,8 @@ if __name__ == "__main__":
 
     if args.outfilename is not None:
         print(get_outfilename(args.outfilename))
+        sys.exit()
+
+    if args.jobad_gen is not None:
+        gen_jobad(args.jobad_gen)
         sys.exit()

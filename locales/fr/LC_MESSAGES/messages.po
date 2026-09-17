@@ -58,6 +58,24 @@ msgstr "Expériences Significatives"
 msgid "contact"
 msgstr "Contact"
 
+msgid "location"
+msgstr "lieu"
+
+msgid "company"
+msgstr "entreprise"
+
+msgid "ad.title"
+msgstr "poste"
+
+msgid "ad.url"
+msgstr "lien annonce"
+
+msgid "publish_date"
+msgstr "publiée le"
+
+msgid "due_date"
+msgstr "expire le"
+
 msgid "fr_nat"
 msgstr "Française"
 

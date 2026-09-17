@@ -58,6 +58,24 @@ msgstr "Highlights Experiences"
 msgid "contact"
 msgstr "Contact"
 
+msgid "location"
+msgstr "location"
+
+msgid "company"
+msgstr "company"
+
+msgid "ad.title"
+msgstr "position"
+
+msgid "ad.url"
+msgstr "ad url"
+
+msgid "publish_date"
+msgstr "published"
+
+msgid "due_date"
+msgstr "due"
+
 msgid "fr_nat"
 msgstr "French"
 

@@ -22,4 +22,4 @@
     [*] new
     [*] compute CV out name
     [*] pdf/html generation
-    [ ] generate markdown from job_ad.yml
+    [*] generate markdown from job_ad.yml

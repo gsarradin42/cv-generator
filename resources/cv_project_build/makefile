@@ -6,10 +6,13 @@ FILENAME := $(shell $(CV_GENERATOR) --outfilename .)
 
 ASSETS_OUT = $(patsubst %,$(OUTDIR)/%,$(ASSETS))
 
+#JOB_AD_OUT = $(patsubst %.yml,$(OUTDIR)/$(FILENAME).md)
+JOB_AD_OUT = $(OUTDIR)/$(FILENAME).md
+
 HTML = $(OUTDIR)/$(FILENAME).html
 TARGET = $(OUTDIR)/$(FILENAME).pdf
 
-.PHONY: all new html copy_assets clean view
+.PHONY: all new html copy_assets clean view gen_ad
 #.PHONY : mount_remote send
 
 all: $(TARGET)
@@ -24,12 +27,17 @@ html: $(HTML)
 view: $(TARGET)
 	open $(TARGET) &>/dev/null
 
+gen_ad: $(JOB_AD_OUT)
+
+$(JOB_AD_OUT): $(JOB_AD)
+	$(CV_GENERATOR) --jobad-gen . > $(JOB_AD_OUT)
+
 # mount_remote:
 # 	gio mount $(REMOTE) 2>/dev/null || echo -n
 
-# send: $(TARGET) mount_remote
+# send: $(TARGET) gen_ad mount_remote
 # 	gio mkdir $(FOLLOWUP_REMOTE)/$(FILENAME) || echo -n
-# 	gio copy $(JOB_AD) $(FOLLOWUP_REMOTE)/$(FILENAME)/$(FILENAME).yml
+# 	gio copy $(JOB_AD_OUT) $(FOLLOWUP_REMOTE)/$(FILENAME)/$(FILENAME).yml
 
 $(ASSETS_OUT): $(ASSETS)
 	cp -r $(ASSETS) $(OUTDIR)
@@ -46,4 +54,4 @@ $(HTML): $(ASSETS_OUT)
 # 	$(PDF_DRIVER) $(HTML) $(TARGET)
 
 clean:
-	rm -f $(HTML) $(TARGET)
+	rm -f $(HTML) $(TARGET) $(JOB_AD_OUT)

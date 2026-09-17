@@ -1,6 +1,7 @@
 company: The Company
 title: The Position # (e.g. Cybersecurity Consultant)
 location: The City
+# url: the_ad_url_origin
 # locale: <lang>_<zone> # (e.g. en_US)
 # publish_date: <yyyy.mm.dd>
 # due_date:
